@@ -1,0 +1,31 @@
+
+<html>
+<head>
+	<title>PerlinWay</title>
+	<style>
+		body, html {
+			position: absolute;
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+
+		canvas {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background: #fff;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+
+</body>
+</html>
+
+<script>
+{class t{constructor(t=1){this.p=new Uint8Array(512),this.octaves=t,this.init()}init(){for(let t=0;t<512;++t)this.p[t]=256*Math.random()}lerp(t,i,e){return i+t*(e-i)}grad2d(t,i,e){const s=0==(1&t)?i:e;return 0==(2&t)?-s:s}noise2d(t,i){const e=255&Math.floor(t),s=255&Math.floor(i),h=t-Math.floor(t),r=i-Math.floor(i),n=(3-2*h)*h*h,o=(3-2*r)*r*r,a=this.p[e]+s,l=this.p[e+1]+s;return this.lerp(o,this.lerp(n,this.grad2d(this.p[a],h,r),this.grad2d(this.p[l],h-1,r)),this.lerp(n,this.grad2d(this.p[a+1],h,r-1),this.grad2d(this.p[l+1],h-1,r-1)))}noise(t,i){let e=1,s=1,h=0;for(let r=0;r<this.octaves;++r)h+=(e*=.5)*(1+this.noise2d(s*t,s*i))/2,s*=2;return h}}class i{constructor(t,i,e){this.x=t,this.y=i,this.a=e}move(){const t=r.noise(.01*this.x,.01*this.y),i=this.a+16*t;this.x+=Math.cos(i),this.y+=Math.sin(i),h.fillRect(this.x,this.y,.75,.75),(this.x<0||this.x>e.width||this.y<0||this.y>e.height)&&n.delete(this)}}const e={init(){return this.elem=document.createElement("canvas"),document.body.appendChild(this.elem),this.resize(),this.elem.getContext("2d")},resize(){this.width=this.elem.width=this.elem.offsetWidth,this.height=this.elem.height=this.elem.offsetHeight},reset(){this.resize(),h.fillStyle="#000"}},s={init(t){this.x=.5*t.width,this.y=.5*t.height,["mousedown","touchstart"].forEach((t,i)=>{document.addEventListener(t,t=>{i?(t.preventDefault(),this.x=t.targetTouches[0].clientX,this.y=t.targetTouches[0].clientY):(this.x=t.clientX,this.y=t.clientY),o()},!1)})}},h=e.init();s.init(e);const r=new t(3),n=new Set,o=()=>{n.clear(),e.reset(),r.init();for(let t=0;t<2*Math.PI;t+=Math.PI/720)n.add(new i(s.x,s.y,t))},a=()=>{requestAnimationFrame(a);for(const t of n)t.move()};o(),a()}
+</script>
